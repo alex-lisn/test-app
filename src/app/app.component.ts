@@ -13,8 +13,6 @@ import * as moment from 'moment';
 export class AppComponent implements OnInit {
   card;
   appForm;
-  months = moment.monthsShort();
-  year = +moment().format('YYYY');
   monthOptions: Array<IOption>;
   yearOptions: Array<IOption>;
 
@@ -27,17 +25,12 @@ export class AppComponent implements OnInit {
       year: '',
       cvc: 123
     });
-    this.monthOptions = this.months.map((m, i) => {
+    this.monthOptions = moment.monthsShort().map((m, i) => {
       const n = ('0' + (i + 1)).slice(-2);
       return Object.assign({value: n, label: n + ' - ' + m});
     });
-    this.yearOptions = Array.from(Array(12).keys()).map( e => {
-      const y =  this.year + e;
-      return Object.assign({value: y, label: y });
-    });
-    console.log('today is', moment());
-    console.log(this.monthOptions);
-    console.log(this.yearOptions);
+    let year = +moment().format('YYYY');
+    this.yearOptions = Array.from(Array(12).keys()).map(e => Object.assign({value: ++year, label: year}));
   }
 
   onSubmit() {
